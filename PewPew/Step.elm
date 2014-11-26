@@ -78,7 +78,8 @@ stepEnemies enemies =
                         | high > halfWidth - 30 -> (True, -1)
                         | otherwise  -> (False, if first.vx > 0 then 1 else -1)
 
-            in map (\enemy -> { enemy | vx <- enemyVelocity dir count Level.fleetSize }) enemies'
+            in map (\enemy -> { enemy | y <- if onEdge then enemy.y - 8 else enemy.y,
+                                        vx <- enemyVelocity dir count Level.fleetSize }) enemies'
 
 
 shouldFire : Int -> Enemy -> Int -> Bool
@@ -167,6 +168,7 @@ stepPlay {firing, direction} ({score, duration, ship, projectiles, enemies, expl
             [] -> Win
             _  -> if
                 | enemyProjectiles' |> any (within 12 10 ship') -> Lose
+                | enemies' |> any (within 12 10 ship') -> Lose
                 | otherwise -> Play
 
     in
