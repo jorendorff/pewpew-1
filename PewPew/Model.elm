@@ -1,8 +1,8 @@
 module PewPew.Model where
 import PewPew.Utils as Utils
 
-(gameWidth,gameHeight) = (600,400)
-(halfWidth,halfHeight) = (gameWidth/2,gameHeight/2)
+(gameWidth,gameHeight) = (600, 400)
+(halfWidth,halfHeight) = (gameWidth / 2, gameHeight / 2)
 
 data State = Play | Win | Lose
 
@@ -28,7 +28,9 @@ type Game = {
     projectiles: [Projectile],
     enemies: [Enemy],
     explosions: [Explosion],
-    enemyProjectiles: [Projectile]
+    enemyProjectiles: [Projectile],
+    cachedTime: Time,
+    lastPlayerFireTime: Time
 }
 
 enemyStartSpeed = 25.0
@@ -57,4 +59,6 @@ defaultGame = {
     projectiles      = [],
     enemies          = [],
     explosions       = [],
-    enemyProjectiles = []}
+    enemyProjectiles = [],
+    cachedTime       = 0.0,
+    lastPlayerFireTime = -1.0}

@@ -31,6 +31,6 @@ direction = merge (.x <~ Keyboard.arrows) (touchMove <~ Touch.touches)
 
 input =
     sampleOn delta (Input <~
-        Utils.throttle firing (350 * millisecond)
+        firing
        ~ direction
        ~ delta)
