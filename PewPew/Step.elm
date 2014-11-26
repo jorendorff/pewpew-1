@@ -97,10 +97,15 @@ tryEnemyFire enemiesRemaing (index,enemy) =
               Just {
                   x = enemy.x,
                   y = enemy.y,
-                  vy = -100,
+                  vy = -10,
                   vx = 0 })
     False -> (enemy,Nothing)
 
+-- Acceleration of gravity (determined experimentally)
+g = 158.0
+
+accelerateProjectile : Projectile -> Projectile
+accelerateProjectile p = {p | vy <- p.vy - g * tickDuration}
 
 stepEnemyFire : [Projectile] -> [Enemy] -> ([Enemy],[Projectile])
 stepEnemyFire projectiles enemies =
@@ -108,6 +113,7 @@ stepEnemyFire projectiles enemies =
         projectiles' = projectiles
                         |> map stepObj
                         |> filter isOnScreen
+                        |> map accelerateProjectile
 
         (enemies',newProjectiles) = indexed
                                     |> map (tryEnemyFire (length enemies))
