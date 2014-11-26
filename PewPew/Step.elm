@@ -98,14 +98,18 @@ tryEnemyFire enemiesRemaing (index,enemy) =
                   x = enemy.x,
                   y = enemy.y,
                   vy = -10,
-                  vx = 0 })
+                  vx = enemy.vx })
     False -> (enemy,Nothing)
 
 -- Acceleration of gravity (determined experimentally)
 g = 158.0
 
+-- Horizontal wind braking factor
+braking = 0.3
+
 accelerateProjectile : Projectile -> Projectile
-accelerateProjectile p = {p | vy <- p.vy - g * tickDuration}
+accelerateProjectile p = {p | vx <- p.vx * (braking ^ tickDuration)
+                            , vy <- p.vy - g * tickDuration}
 
 stepEnemyFire : [Projectile] -> [Enemy] -> ([Enemy],[Projectile])
 stepEnemyFire projectiles enemies =
