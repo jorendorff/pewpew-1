@@ -36,8 +36,8 @@ enemyEndSpeed = 200.0
 
 enemyVelocity: Int -> Int -> Int -> Float
 enemyVelocity dir enemiesRemaining enemiesInitial =
-    let velocity = Utils.cubicEasing enemiesInitial enemyEndSpeed enemyStartSpeed enemiesRemaining
-    in velocity * (toFloat dir)
+    let speed = Utils.cubicEasing (enemiesInitial, enemyStartSpeed) (1, enemyEndSpeed) enemiesRemaining
+    in toFloat dir * speed
 
 makeEnemy: Int -> Int -> Enemy
 makeEnemy row col =

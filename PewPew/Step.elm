@@ -79,7 +79,7 @@ stepEnemies t enemies =
 
 shouldFire : Int -> Enemy -> Int -> Bool
 shouldFire enemiesRemaining enemy index =
-    let interval = Utils.cubicEasing 34 1.0 10.0 enemiesRemaining
+    let interval = Utils.cubicEasing (Level.fleetSize, 10.0) (1, 1.0) enemiesRemaining
         wobble   = abs(tan(toFloat index)) * (toFloat enemiesRemaining) / 2
 
     in enemy.lastFired > interval + wobble
