@@ -14,9 +14,7 @@ starCoordinates (row, col) chars = case chars of
 asciiToEnemies: String -> [Model.Enemy]
 asciiToEnemies string =
     let positions = String.toList string |> starCoordinates (0, 0)
-        count = length positions
-        initialVelocity = Model.enemyVelocity 1 count
-        makeEnemy (row, col) = Model.makeEnemy row col initialVelocity
+        makeEnemy (row, col) = Model.makeEnemy row col
     in map makeEnemy positions
 
 level: [Model.Enemy]

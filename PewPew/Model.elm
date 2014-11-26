@@ -31,18 +31,20 @@ type Game = {
     enemyProjectiles: [Projectile]
 }
 
-enemyVelocity: Int -> Int -> Float
-enemyVelocity dir enemiesRemaining =
-    let velocity = 200 - Utils.cubicEasing 34 0 175 enemiesRemaining
+enemyStartSpeed = 25.0
+enemyEndSpeed = 200.0
+
+enemyVelocity: Int -> Int -> Int -> Float
+enemyVelocity dir enemiesRemaining enemiesInitial =
+    let velocity = Utils.cubicEasing enemiesInitial enemyEndSpeed enemyStartSpeed enemiesRemaining
     in velocity * (toFloat dir)
 
-
-makeEnemy: Int -> Int -> Float -> Enemy
-makeEnemy row col vx=
+makeEnemy: Int -> Int -> Enemy
+makeEnemy row col =
    let enemySize = 30
        y =  halfHeight - (toFloat row * enemySize) - 20.0
        x = (toFloat col * enemySize) - halfWidth
-
+       vx = enemyStartSpeed
    in { x=x, y=y, vx=vx, vy=0.0, lastFired=0 }
 
 

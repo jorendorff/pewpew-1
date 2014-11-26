@@ -4,6 +4,7 @@ import List
 import PewPew.Input (Input)
 import PewPew.Model (..)
 import PewPew.Utils as Utils
+import PewPew.Level as Level
 
 --
 --Helper functions
@@ -72,7 +73,7 @@ stepEnemies t enemies =
                 | otherwise  -> Nothing
 
     in case dir of
-         Just v -> map (\enemy -> { enemy | vx <- enemyVelocity v count }) enemies'
+         Just v -> map (\enemy -> { enemy | vx <- enemyVelocity v count Level.fleetSize }) enemies'
          _      -> enemies'
 
 
