@@ -1,7 +1,7 @@
 module PewPew.Model where
 import PewPew.Utils as Utils
 
-(gameWidth,gameHeight) = (600, 400)
+(gameWidth,gameHeight) = (1440, 630)
 (halfWidth,halfHeight) = (gameWidth / 2, gameHeight / 2)
 
 data State = Play | Win | Lose

@@ -10,7 +10,7 @@ import PewPew.Level as Level
 --Helper functions
 --
 
-tickDuration = 0.001  -- seconds
+tickDuration = 0.01  -- seconds
 reloadDuration = 0.350  -- seconds
 
 -- From Pong in Elm sample (http://elm-lang.org/edit/examples/Intermediate/Pong.elm)
