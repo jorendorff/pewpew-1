@@ -14,12 +14,10 @@ throttle input interval=
 
 cubicEasing: Int -> Float -> Float -> Int -> Float
 cubicEasing duration min max t =
-   let t' = (toFloat t) / (toFloat duration/2.0)
-   in if
-      | t' < 1 -> (max-min)/2.0 * t' ^ 3 + min
-      | otherwise ->
-         let t'' = t' - 2.0
-         in (max-min)/2.0 * (t''^3 + 2.0) + min
+   let x = -1.0 + 2.0 * (toFloat t) / (toFloat duration)
+       y0 = (min + max) / 2.0
+   in y0 + (max - y0) * x^3
+
 
 
 -- From Pong in Elm sample (http://elm-lang.org/edit/examples/Intermediate/Pong.elm)
