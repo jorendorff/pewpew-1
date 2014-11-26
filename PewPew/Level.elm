@@ -2,35 +2,25 @@ module PewPew.Level where
 
 import String
 import PewPew.Model as Model
-import PewPew.Utils as Utils
 
 
-parseLine: (Int, String) -> [(Int,Int)]
-parseLine (row, chars) =
-   let nonBlank c = c /= " "
-       withRow col = (row,col)
-
-   in chars
-       |> String.split ""
-       |> Utils.withIndex
-       |> filter (nonBlank << snd)
-       |> map (withRow << fst)
-
+starCoordinates: (Int, Int) -> [Char] -> [(Int, Int)]
+starCoordinates (row, col) chars = case chars of
+  [] -> []
+  ('\n'::rest) -> starCoordinates (row + 1, 0) rest
+  ('*'::rest) -> (row, col) :: starCoordinates (row, col + 1) rest
+  (_::rest) -> starCoordinates (row, col + 1) rest
 
 asciiToEnemies: String -> [Model.Enemy]
 asciiToEnemies string =
-    let lines = String.split "\n" string
-        positions = lines
-            |> Utils.withIndex
-            |> concatMap parseLine
+    let positions = String.toList string |> starCoordinates (0, 0)
         count = length positions
         initialVelocity = Model.enemyVelocity 1 count
-        makeEnemy (row,col) = Model.makeEnemy row col initialVelocity
-
+        makeEnemy (row, col) = Model.makeEnemy row col initialVelocity
     in map makeEnemy positions
 
-
-level = """
+level: [Model.Enemy]
+level = asciiToEnemies """
   *      **   *
   * *   *  *  * *
   * *   *  *  * *
@@ -39,7 +29,4 @@ level = """
     *    **     *
 """
 
-
-create : () -> [Model.Enemy]
-create () =
-    asciiToEnemies level
+fleetSize = length level
