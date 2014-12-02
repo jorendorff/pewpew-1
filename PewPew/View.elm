@@ -34,8 +34,8 @@ displayExplosion boom =
         |> scale (1.2 * boom.time/0.15)
 
 
-displayPlay : (Int,Int) -> Game -> Element
-displayPlay (w,h) ({state, score, ship, projectiles, enemies, explosions, enemyProjectiles} as game) =
+displayPlay : (Int, Int) -> (Game, Float) -> Element
+displayPlay (w,h) ({state, score, ship, projectiles, enemies, explosions, enemyProjectiles} as game, rate) =
     let objs = [
        filled (rgb 0 0 0) (rect gameWidth gameHeight)
     ] ++
@@ -48,7 +48,8 @@ displayPlay (w,h) ({state, score, ship, projectiles, enemies, explosions, enemyP
     in
         layers [
             container w h topLeft <| collage gameWidth gameHeight objs,
-            container w 20 topLeft <| (flow down [txt (Text.height 16) (String.append "SCORE: "  (show score))])
+            container w 20 topLeft <| (flow down [txt (Text.height 16) (String.append "SCORE: "  (show score))]),
+            container w 40 bottomLeft <| (flow down [txt (Text.height 16) (String.append (show rate) " fps")])
         ]
 
 
@@ -64,10 +65,10 @@ tweetLink score =
     in String.append base text
 
 
-displayGameOver : String -> (Int,Int) -> Game -> Element
-displayGameOver message (w,h) ({score} as game) =
+displayGameOver : String -> (Int, Int) -> (Game, Float) -> Element
+displayGameOver message (w, h) (({score}, _) as stuff) =
     layers [
-        displayPlay (w,h) game,
+        displayPlay (w, h) stuff,
         container w h topLeft <|
             collage gameWidth gameHeight [
                 filled (rgba 0 0 0 0.5)  (rect gameWidth gameHeight),
@@ -77,9 +78,9 @@ displayGameOver message (w,h) ({score} as game) =
     ]
 
 
-display : (Int,Int) -> Game -> Element
-display dimensions ({state} as game) =
+display : (Int, Int) -> (Game, Float) -> Element
+display dimensions (({state}, _) as stuff) =
     case state of
-        Play -> displayPlay dimensions game
-        Win  -> displayGameOver "You Win!" dimensions game
-        Lose -> displayGameOver "Good try!" dimensions game
+        Play -> displayPlay dimensions stuff
+        Win  -> displayGameOver "You Win!" dimensions stuff
+        Lose -> displayGameOver "Good try!" dimensions stuff
