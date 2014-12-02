@@ -13,23 +13,25 @@ displayProjectile {x,y} =
     move (x,y) (filled white (rect 2 6))
 
 
+shipSprite = toForm (fittedImage 40 40 "assets/ship.png")
+explosionSprite = toForm (fittedImage 30 30 "assets/explosion.png")
+enemySprite = toForm (fittedImage 30 30 "assets/red-2.png")
+
 displayShip: State -> Ship -> Form
 displayShip state ship =
     case state of
-    Lose -> toForm (fittedImage 30 30 "assets/explosion.png") |> move (ship.x, ship.y)
-    _    -> toForm (fittedImage 40 40 "assets/ship.png") |> move (ship.x, ship.y)
-
+    Lose -> explosionSprite |> move (ship.x, ship.y)
+    _    -> shipSprite |> move (ship.x, ship.y)
 
 displayEnemy: Enemy -> Form
 displayEnemy enemy =
-    toForm (fittedImage 30 30 "assets/red-2.png")
+    enemySprite
         |> move (enemy.x, enemy.y)
         |> rotate (degrees 180)
 
-
 displayExplosion: Explosion -> Form
 displayExplosion boom =
-    toForm (fittedImage 30 30 "assets/explosion.png")
+    explosionSprite
         |> move (boom.x, boom.y)
         |> scale (1.2 * boom.time/0.15)
 
